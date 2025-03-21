@@ -1,7 +1,6 @@
 ﻿using EmployeeAdminPortal.Data;
 using EmployeeAdminPortal.Models.Entities;
 using EmployeeAdminPortal.Models.DTOs;
-using EmployeeAdminPortal.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +21,14 @@ namespace EmployeeAdminPortal.Controllers
         public IActionResult GetAllEmployees()
         {
             var emps = _dBContext.Employees.ToList();
-            return Ok(emps);
+
+            List<GetEmployeeDTO> empDTOs = new List<GetEmployeeDTO>();
+            foreach (var emp in emps)
+            {
+                empDTOs.Add(new GetEmployeeDTO() { Name = emp.Name, Email = emp.Email });
+            }
+
+            return Ok(empDTOs);
         }
 
         [HttpGet("{id:guid}")]
@@ -81,4 +87,3 @@ namespace EmployeeAdminPortal.Controllers
         }
     }
 }
-A
